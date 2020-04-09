@@ -16,7 +16,7 @@ class GeneticAlgorithmSolver:
         # YOUR CODE HERE
         child = self.crossover(routes.routes[0], routes.routes[1])
         self.mutate(child)
-
+        self.tournament(routes.routes)
         return None
 
     def crossover(self, route_1, route_2):
@@ -63,7 +63,7 @@ class GeneticAlgorithmSolver:
         for _ in range(int(len(route.route) * self.mutation_rate)):
             city1_index = 0
             city2_index = 0
-            while city1_index == city2_index and city1_index < 20 and city2_index < 20:
+            while city1_index == city2_index and city1_index > 19 and city2_index > 19:
                 city1_index = int(np.around(np.random.random() * len(route.route)))
                 city2_index = int(np.around(np.random.random() * len(route.route)))
             temp_city = route.route[city1_index]
@@ -72,4 +72,10 @@ class GeneticAlgorithmSolver:
 
     def tournament(self, routes):
         # YOUR CODE HERE
-        return None
+
+        routes_selected = list()
+        indices = np.random.randint(low=0, high=len(routes), size=self.tournament_size)
+        for index in indices:
+            routes_selected.append(routes[index])
+
+        return routes_selected
