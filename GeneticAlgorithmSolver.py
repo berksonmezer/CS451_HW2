@@ -14,18 +14,21 @@ class GeneticAlgorithmSolver:
 
     def evolve(self, routes):
         # YOUR CODE HERE
-
+        child = self.crossover(routes.routes[0], routes.routes[1])
         return None
 
     def crossover(self, route_1, route_2):
         # YOUR CODE HERE
         # implement order crossover
+
+        # create route instance to return
         child_route_instance = Route(route_1.cities)
 
+        # get routes as lists from route instances
         route1 = route_1.route
         route2 = route_2.route
-        child_route = child_route_instance.route
 
+        # create sub route from route 1
         sub_route_start_index = 0
         sub_route_finish_index = 0
         indices = [sub_route_start_index, sub_route_finish_index]
@@ -33,22 +36,21 @@ class GeneticAlgorithmSolver:
             indices = np.random.randint(low=0, high=len(route1), size=2)
         sub_route_start_index = indices[0]
         sub_route_finish_index = indices[1]
-
         sub_route = route1[sub_route_start_index: sub_route_finish_index]
-        for i in range[0, len(route2)]:
-            if route2[i] in sub_route:
-                route2.remove(i)
+
+        # remove the sub route cities in route 2
+        for city in route2:
+            if city in sub_route:
+                route2.remove(city)
 
         # create child route
-        index = 0
-        while index < sub_route_start_index:
-            child_route.append(route2.pop(index))
-            index += 1
-        child_route.append(sub_route)
-        while len(route2) > 0:
-            child_route.append(route2.pop(index))
-            index += 1
+        child_route = list()
+        child_route.extend(route2[0:sub_route_start_index])
+        child_route.extend(sub_route)
+        child_route.extend(route2[sub_route_start_index::])
 
+        # assign child route list to the instance returned
+        child_route_instance.route = child_route
         return child_route_instance
 
     def mutate(self, route):
