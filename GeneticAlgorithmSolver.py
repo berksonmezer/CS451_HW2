@@ -15,6 +15,8 @@ class GeneticAlgorithmSolver:
     def evolve(self, routes):
         # YOUR CODE HERE
         child = self.crossover(routes.routes[0], routes.routes[1])
+        self.mutate(child)
+
         return None
 
     def crossover(self, route_1, route_2):
@@ -39,15 +41,16 @@ class GeneticAlgorithmSolver:
         sub_route = route1[sub_route_start_index: sub_route_finish_index]
 
         # remove the sub route cities in route 2
+        temp_route = list()
         for city in route2:
-            if city in sub_route:
-                route2.remove(city)
+            if city not in sub_route:
+                temp_route.append(city)
 
         # create child route
         child_route = list()
-        child_route.extend(route2[0:sub_route_start_index])
+        child_route.extend(temp_route[0:sub_route_start_index])
         child_route.extend(sub_route)
-        child_route.extend(route2[sub_route_start_index::])
+        child_route.extend(temp_route[sub_route_start_index::])
 
         # assign child route list to the instance returned
         child_route_instance.route = child_route
@@ -55,7 +58,17 @@ class GeneticAlgorithmSolver:
 
     def mutate(self, route):
         # YOUR CODE HERE
-        return
+
+        # swap the cities randomly according to mutation rate
+        for _ in range(int(len(route.route) * self.mutation_rate)):
+            city1_index = 0
+            city2_index = 0
+            while city1_index == city2_index and city1_index < 20 and city2_index < 20:
+                city1_index = int(np.around(np.random.random() * len(route.route)))
+                city2_index = int(np.around(np.random.random() * len(route.route)))
+            temp_city = route.route[city1_index]
+            route.route[city1_index] = route.route[city2_index]
+            route.route[city2_index] = temp_city
 
     def tournament(self, routes):
         # YOUR CODE HERE
