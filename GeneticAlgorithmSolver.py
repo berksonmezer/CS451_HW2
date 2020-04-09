@@ -16,7 +16,7 @@ class GeneticAlgorithmSolver:
         # YOUR CODE HERE
         child = self.crossover(routes.routes[0], routes.routes[1])
         self.mutate(child)
-
+        self.tournament(routes.routes)
         return None
 
     def crossover(self, route_1, route_2):
@@ -72,4 +72,10 @@ class GeneticAlgorithmSolver:
 
     def tournament(self, routes):
         # YOUR CODE HERE
-        return None
+
+        routes_selected = list()
+        indices = np.random.randint(low=0, high=len(routes), size=self.tournament_size)
+        for index in indices:
+            routes_selected.append(routes[index])
+
+        return routes_selected
