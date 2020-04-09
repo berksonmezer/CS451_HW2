@@ -14,10 +14,20 @@ class GeneticAlgorithmSolver:
 
     def evolve(self, routes):
         # YOUR CODE HERE
-        child = self.crossover(routes.routes[0], routes.routes[1])
-        self.mutate(child)
-        self.tournament(routes.routes)
-        return None
+        routes = self.tournament(routes)
+        best_route = routes.find_best_route()
+        routes.routes.remove(best_route)
+        second_best_route = routes.find_best_route()
+
+        routes.routes.clear()
+        for _ in range(self.population_size):
+            child_route = self.crossover(best_route, second_best_route)
+            routes.routes.append(child_route)
+
+        for route in routes.routes:
+            self.mutate(route)
+
+        return routes
 
     def crossover(self, route_1, route_2):
         # YOUR CODE HERE
@@ -74,8 +84,9 @@ class GeneticAlgorithmSolver:
         # YOUR CODE HERE
 
         routes_selected = list()
-        indices = np.random.randint(low=0, high=len(routes), size=self.tournament_size)
+        indices = np.random.randint(low=0, high=len(routes.routes), size=self.tournament_size)
         for index in indices:
-            routes_selected.append(routes[index])
+            routes_selected.append(routes.routes[index])
+        routes.routes = routes_selected
 
-        return routes_selected
+        return routes
