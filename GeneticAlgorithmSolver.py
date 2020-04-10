@@ -14,16 +14,17 @@ class GeneticAlgorithmSolver:
 
     def evolve(self, routes):
         # YOUR CODE HERE
-        routes = self.tournament(routes)
-        best_route = routes.find_best_route()
-        routes.routes.remove(best_route)
-        second_best_route = routes.find_best_route()
 
-        routes.routes.clear()
+        children = list()
         for _ in range(self.population_size):
+            routes_candidates = self.tournament(routes)
+            best_route = routes_candidates.find_best_route()
+            routes_candidates.routes.remove(best_route)
+            second_best_route = routes_candidates.find_best_route()
             child_route = self.crossover(best_route, second_best_route)
-            routes.routes.append(child_route)
+            children.append(child_route)
 
+        routes.routes = children
         for route in routes.routes:
             self.mutate(route)
 
@@ -83,10 +84,13 @@ class GeneticAlgorithmSolver:
     def tournament(self, routes):
         # YOUR CODE HERE
 
+        routes_new = RouteManager(routes.cities, routes.population_size)
         routes_selected = list()
-        indices = np.random.randint(low=0, high=len(routes.routes), size=self.tournament_size)
+        # indices = np.random.randint(low=0, high=len(routes.routes), size=self.tournament_size)
+        indices = np.random.choice(range(len(routes.routes)), self.tournament_size, replace=False)
         for index in indices:
             routes_selected.append(routes.routes[index])
-        routes.routes = routes_selected
+        routes_new.routes.clear()
+        routes_new.routes = routes_selected
 
-        return routes
+        return routes_new
