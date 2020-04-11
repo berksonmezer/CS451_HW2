@@ -56,7 +56,7 @@ class GeneticAlgorithmSolver:
         #         child_route[i] = route2[i]
 
         # implement position-based crossover
-        size = np.random.randint(5, 15)
+        size = np.random.randint(5, 16)
         cycle_indices = np.random.choice(range(len(route1)), size, replace=False)
         child_route = [None for i in range(len(route1))]
         for i in range(len(route1)):
