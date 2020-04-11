@@ -24,7 +24,7 @@ class RouteManager:
             if i == 0:
                 best_route = _route
             else:
-                if _route.calc_fitness() <= self.get_route(i).calc_fitness():
+                if _route.calc_fitness() >= best_route.calc_fitness():
                     best_route = _route
 
         return best_route

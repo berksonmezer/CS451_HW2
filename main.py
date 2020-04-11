@@ -2,6 +2,7 @@ from City import City
 from CityManager import CityManager
 from RouteManager import RouteManager
 from GeneticAlgorithmSolver import GeneticAlgorithmSolver
+import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
@@ -53,10 +54,17 @@ if __name__ == '__main__':
 
     gas = GeneticAlgorithmSolver(cm, 50)
 
+    fitness_values = list()
     rm = gas.evolve(rm)
+    fitness_values.append(rm.find_best_route().calc_route_distance())
     for i in range(100):
         rm = gas.evolve(rm)
+        fitness_values.append(rm.find_best_route().calc_route_distance())
+        print(rm.find_best_route().calc_route_distance())
 
     print(rm.find_best_route().calc_route_distance())
 
     print(rm.find_best_route())
+    plt.plot(fitness_values)
+    plt.show()
+
