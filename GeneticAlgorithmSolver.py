@@ -40,14 +40,24 @@ class GeneticAlgorithmSolver:
         route1 = route_1.route
         route2 = route_2.route
 
-        # implement cycle crossover
-        cycle_indices = [0]
-        while len(cycle_indices) <= len(route1):
-            index = cycle_indices[-1]
-            next_index = route1.index(route2[index])
-            if next_index == cycle_indices[0]:
-                break
-            cycle_indices.append(next_index)
+        # # implement cycle crossover
+        # cycle_indices = [0]
+        # while len(cycle_indices) <= len(route1):
+        #     index = cycle_indices[-1]
+        #     next_index = route1.index(route2[index])
+        #     if next_index == cycle_indices[0]:
+        #         break
+        #     cycle_indices.append(next_index)
+        # child_route = [None for i in range(len(route1))]
+        # for i in range(len(route1)):
+        #     if i in cycle_indices:
+        #         child_route[i] = route1[i]
+        #     else:
+        #         child_route[i] = route2[i]
+
+        # implement position-based crossover
+        size = np.random.randint(5, 15)
+        cycle_indices = np.random.choice(range(len(route1)), size, replace=False)
         child_route = [None for i in range(len(route1))]
         for i in range(len(route1)):
             if i in cycle_indices:
