@@ -95,7 +95,7 @@ class GeneticAlgorithmSolver:
     def mutate(self, route):
         # YOUR CODE HERE
 
-        # swap the cities randomly according to mutation rate
+        # implement exchange mutation
         for _ in range(int(len(route.route) * self.mutation_rate)):
             city1_index = 0
             city2_index = 0
@@ -105,6 +105,15 @@ class GeneticAlgorithmSolver:
             temp_city = route.route[city1_index]
             route.route[city1_index] = route.route[city2_index]
             route.route[city2_index] = temp_city
+
+        # # implement insertion mutation
+        # for _ in range(int(len(route.route) * self.mutation_rate)):
+        #     city1_index = 0
+        #     city2_index = 0
+        #     while city1_index == city2_index and city1_index > 19 and city2_index > 19:
+        #         city1_index = int(np.around(np.random.random() * len(route.route)))
+        #         city2_index = int(np.around(np.random.random() * len(route.route)))
+        #     route.route.insert(city1_index, route.route.pop(city2_index))
 
     def tournament(self, routes):
         # YOUR CODE HERE
