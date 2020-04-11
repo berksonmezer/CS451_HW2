@@ -55,38 +55,38 @@ class GeneticAlgorithmSolver:
         #     else:
         #         child_route[i] = route2[i]
 
-        # implement position-based crossover
-        size = np.random.randint(5, 16)
-        cycle_indices = np.random.choice(range(len(route1)), size, replace=False)
-        child_route = [None for i in range(len(route1))]
-        for i in range(len(route1)):
-            if i in cycle_indices:
-                child_route[i] = route1[i]
-            else:
-                child_route[i] = route2[i]
+        # # implement position-based crossover
+        # size = np.random.randint(5, 16)
+        # cycle_indices = np.random.choice(range(len(route1)), size, replace=False)
+        # child_route = [None for i in range(len(route1))]
+        # for i in range(len(route1)):
+        #     if i in cycle_indices:
+        #         child_route[i] = route1[i]
+        #     else:
+        #         child_route[i] = route2[i]
 
-        # # implement order crossover
-        # # create sub route from route 1
-        # sub_route_start_index = 0
-        # sub_route_finish_index = 0
-        # indices = [sub_route_start_index, sub_route_finish_index]
-        # while not indices[0] < indices[1]:
-        #     indices = np.random.randint(low=0, high=len(route1), size=2)
-        # sub_route_start_index = indices[0]
-        # sub_route_finish_index = indices[1]
-        # sub_route = route1[sub_route_start_index: sub_route_finish_index]
-        #
-        # # remove the sub route cities in route 2
-        # temp_route = list()
-        # for city in route2:
-        #     if city not in sub_route:
-        #         temp_route.append(city)
-        #
-        # # create child route
-        # child_route = list()
-        # child_route.extend(temp_route[0:sub_route_start_index])
-        # child_route.extend(sub_route)
-        # child_route.extend(temp_route[sub_route_start_index::])
+        # implement order crossover
+        # create sub route from route 1
+        sub_route_start_index = 0
+        sub_route_finish_index = 0
+        indices = [sub_route_start_index, sub_route_finish_index]
+        while not indices[0] < indices[1]:
+            indices = np.random.randint(low=0, high=len(route1), size=2)
+        sub_route_start_index = indices[0]
+        sub_route_finish_index = indices[1]
+        sub_route = route1[sub_route_start_index: sub_route_finish_index]
+
+        # remove the sub route cities in route 2
+        temp_route = list()
+        for city in route2:
+            if city not in sub_route:
+                temp_route.append(city)
+
+        # create child route
+        child_route = list()
+        child_route.extend(temp_route[0:sub_route_start_index])
+        child_route.extend(sub_route)
+        child_route.extend(temp_route[sub_route_start_index::])
 
         # assign child route list to the instance returned
         child_route_instance.route = child_route
